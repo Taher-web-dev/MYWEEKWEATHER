@@ -14,23 +14,24 @@ import './header.css';
 import countries from './helper';
 import LOCATION from '../../Statics/Images/location.png';
 
-const Header = () => {
+const Header = (props) => {
+  const {
+    getCity, getCurrentLocation, initialCity,
+  } = props;
+  let city = initialCity;
   const [value, setValue] = useState(new Date());
-  const [lat, setLat] = useState(0);
-  const [Long, setLong] = useState(0);
   const popUpOoptions = () => {
     const header = document.querySelector('.header');
     const options = document.querySelector('.options');
     header.style.display = 'none';
     options.style.display = 'flex';
   };
-
-  const getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setLat(position.coords.latitude);
-      setLong(position.coords.longitude);
-    });
+  
+  const countryHandlerChange = (e) => {
+    setTimeout(changeHeaderBar, 1000);
+    city = e.target.textContent;
   };
+
   const changeHeaderBar = () => {
     const header = document.querySelector('.header');
     const options = document.querySelector('.options');
@@ -39,9 +40,6 @@ const Header = () => {
   };
   const dateHandlerChange = (newValue) => {
     setValue(newValue);
-    setTimeout(changeHeaderBar, 1000);
-  };
-  const countryHandlerChange = () => {
     setTimeout(changeHeaderBar, 1000);
   };
 
@@ -65,7 +63,7 @@ const Header = () => {
       },
     },
   });
-  useEffect(() => getCurrentLocation(), []);
+  
   return (
     <div>
       <Grid
@@ -94,7 +92,7 @@ const Header = () => {
               sx={{ width: 167 }}
               options={countries}
               autoHighlight
-              onChange={countryHandlerChange}
+              onChange={(e) => countryHandlerChange(e)}
               getOptionLabel={(option) => option.label}
               renderOption={(props, option) => (
                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} style={{ color: '#bae' }}>
@@ -111,7 +109,6 @@ const Header = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-            // style= {{color:'red'}}
                   label="Choose a country"
                   inputProps={{
                     ...params.inputProps,
@@ -132,7 +129,7 @@ const Header = () => {
       >
         <MenuIcon style={{ color: '#fff' }} onClick={popUpOoptions} />
         <Typography variant="h5" component="div" style={{ color: '#fff' }}>
-          Kasserine,Tunisia
+          {city}
         </Typography>
         <div role="button" onClick={getCurrentLocation} onKeyDown={getCurrentLocation} tabIndex={0}>
           <img src={LOCATION} alt="location_icon" height="25rem" />
