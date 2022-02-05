@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
@@ -16,13 +16,21 @@ import LOCATION from '../../Statics/Images/location.png';
 
 const Header = () => {
   const [value, setValue] = useState(new Date());
+  const [lat, setLat] = useState(0);
+  const [Long, setLong] = useState(0);
   const popUpOoptions = () => {
     const header = document.querySelector('.header');
     const options = document.querySelector('.options');
     header.style.display = 'none';
     options.style.display = 'flex';
   };
-  const getCurrentLocation = () => console.log('I clicked');
+
+  const getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+    });
+  };
   const changeHeaderBar = () => {
     const header = document.querySelector('.header');
     const options = document.querySelector('.options');
@@ -57,6 +65,7 @@ const Header = () => {
       },
     },
   });
+  useEffect(() => getCurrentLocation(), []);
   return (
     <div>
       <Grid
