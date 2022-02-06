@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
@@ -9,27 +9,24 @@ import Autocomplete from '@mui/material/Autocomplete';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import './header.css';
+import { useSelector } from 'react-redux';
 import countries from './helper';
 import LOCATION from '../../Statics/Images/location.png';
 
 const Header = (props) => {
   const {
-    getCity, getCurrentLocation, initialCity,
+    getCurrentLocation,
   } = props;
-  let city = initialCity;
+  let city = useSelector((state) => state.city);
   const [value, setValue] = useState(new Date());
   const popUpOoptions = () => {
     const header = document.querySelector('.header');
     const options = document.querySelector('.options');
     header.style.display = 'none';
     options.style.display = 'flex';
-  };
-  
-  const countryHandlerChange = (e) => {
-    setTimeout(changeHeaderBar, 1000);
-    city = e.target.textContent;
   };
 
   const changeHeaderBar = () => {
@@ -38,6 +35,12 @@ const Header = (props) => {
     options.style.display = 'none';
     header.style.display = 'flex';
   };
+
+  const countryHandlerChange = (e) => {
+    setTimeout(changeHeaderBar, 1000);
+    city = e.target.textContent;
+  };
+
   const dateHandlerChange = (newValue) => {
     setValue(newValue);
     setTimeout(changeHeaderBar, 1000);
@@ -63,7 +66,7 @@ const Header = (props) => {
       },
     },
   });
-  
+
   return (
     <div>
       <Grid
@@ -129,7 +132,9 @@ const Header = (props) => {
       >
         <MenuIcon style={{ color: '#fff' }} onClick={popUpOoptions} />
         <Typography variant="h5" component="div" style={{ color: '#fff' }}>
-          {city}
+          {city.country}
+          ,
+          {city.city}
         </Typography>
         <div role="button" onClick={getCurrentLocation} onKeyDown={getCurrentLocation} tabIndex={0}>
           <img src={LOCATION} alt="location_icon" height="25rem" />
@@ -137,5 +142,8 @@ const Header = (props) => {
       </div>
     </div>
   );
+};
+Header.propTypes = {
+  getCurrentLocation: PropTypes.func.isRequired,
 };
 export default Header;
