@@ -12,7 +12,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import './header.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCountry } from '../../Redux/Position/Action/action';
 import countries from './helper';
 import LOCATION from '../../Statics/Images/location.png';
 
@@ -21,6 +22,7 @@ const Header = (props) => {
     getCurrentLocation,
   } = props;
   let city = useSelector((state) => state.city);
+  const dispatch = useDispatch();
   const [value, setValue] = useState(new Date());
   const popUpOoptions = () => {
     const header = document.querySelector('.header');
@@ -39,6 +41,12 @@ const Header = (props) => {
   const countryHandlerChange = (e) => {
     setTimeout(changeHeaderBar, 1000);
     city = e.target.textContent;
+    dispatch(setCountry(
+      {
+        country: city,
+        city,
+      },
+    ));
   };
 
   const dateHandlerChange = (newValue) => {

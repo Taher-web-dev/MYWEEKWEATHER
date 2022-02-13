@@ -37,13 +37,10 @@ const Home = () => {
       getCity(coords);
     }
   };
-  const props = {
-    getCurrentLocation,
-  };
   useEffect(() => getCurrentLocation(), [lat, long]);
   return (
     <div>
-      <Header props={props} />
+      <Header getCurrentLocation={getCurrentLocation} />
     </div>
   );
 };
