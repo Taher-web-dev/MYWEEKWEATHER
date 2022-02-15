@@ -1,8 +1,11 @@
 import { React, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import XMLHttpRequest from 'xhr2';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import { setCountry } from '../../Redux/Position/Action/action';
 import Header from './header';
+import SUNNY from '../../Statics/Images/sun.svg';
 
 const Home = () => {
   const [lat, setLat] = useState(0);
@@ -37,10 +40,39 @@ const Home = () => {
       getCity(coords);
     }
   };
+
+  const weatherAnimation = () => {
+    const element = document.querySelector('.weather');
+    element.style.transform += 'rotate(2deg)';
+  };
   useEffect(() => getCurrentLocation(), [lat, long]);
+  useEffect(() => setInterval(weatherAnimation, 1), []);
   return (
     <div>
       <Header getCurrentLocation={getCurrentLocation} />
+      <Grid
+        container
+        style={{
+          marginTop: '50px', backgroundColor: 'rgb(42, 84, 108)', padding: '25px 0', width: '90%', marginLeft: '5%', border: '4px solid rgb(96, 128, 148)', borderRadius: '5%',
+        }}
+      >
+        <Grid
+          item
+          xs={6}
+          style={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end',
+          }}
+        >
+          <img src={SUNNY} alt="weather" style={{ marginBottom: '20px', width: '60px' }} className="weather" />
+          <Typography variant="h5" style={{ color: '#fff' }}>Sunny</Typography>
+        </Grid>
+        <Grid item xs={5} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+          <Typography variant="span" style={{ color: '#fff' }}>Wind: 10 metre/sec</Typography>
+          <Typography variant="span" style={{ color: '#fff' }}>Humidity: 10 %</Typography>
+          <Typography variant="span" style={{ color: '#fff' }}>Pressure: 5 hPa</Typography>
+          <Typography variant="h3" style={{ color: '#fff', textAlign: 'center' }}>15°c</Typography>
+        </Grid>
+      </Grid>
     </div>
   );
 };
