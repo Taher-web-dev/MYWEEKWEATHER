@@ -97,7 +97,7 @@ const Header = (props) => {
               onChange={(e) => countryHandlerChange(e)}
               getOptionLabel={(option) => option.label}
               renderOption={(props, option) => (
-                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} style={{ color: '#bae' }}>
+                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} style={{ color: '#fff' }}>
                   <img
                     loading="lazy"
                     width="20"
