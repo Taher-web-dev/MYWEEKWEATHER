@@ -46,6 +46,13 @@ const Header = (props) => {
     ));
   };
 
+  const backToMainMenu = () => {
+    const options = document.querySelector('.options');
+    const main = document.querySelector('.header');
+    options.style.display = 'none';
+    main.style.display = 'flex';
+  };
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -79,7 +86,7 @@ const Header = (props) => {
       >
         <ThemeProvider theme={theme}>
           <Grid item xs={2}>
-            <ArrowBackIosIcon style={{ color: '#fff' }} />
+            <ArrowBackIosIcon style={{ color: '#fff' }} onClick={backToMainMenu} />
           </Grid>
           <Grid item xs={8}>
             <Autocomplete
