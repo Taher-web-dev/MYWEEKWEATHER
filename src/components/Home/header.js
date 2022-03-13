@@ -1,16 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { React, useState } from 'react';
+import { React } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import './header.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCountry } from '../../Redux/Position/Action/action';
@@ -23,7 +21,6 @@ const Header = (props) => {
   } = props;
   let city = useSelector((state) => state.city);
   const dispatch = useDispatch();
-  const [value, setValue] = useState(new Date());
   const popUpOoptions = () => {
     const header = document.querySelector('.header');
     const options = document.querySelector('.options');
@@ -47,11 +44,6 @@ const Header = (props) => {
         city,
       },
     ));
-  };
-
-  const dateHandlerChange = (newValue) => {
-    setValue(newValue);
-    setTimeout(changeHeaderBar, 1000);
   };
 
   const theme = createTheme({
@@ -86,21 +78,13 @@ const Header = (props) => {
         }}
       >
         <ThemeProvider theme={theme}>
-          <Grid item xs={5.5}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-                label="Date"
-                inputFormat="MM/dd/yyyy"
-                value={value}
-                onChange={dateHandlerChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
+          <Grid item xs={2}>
+            <ArrowBackIosIcon style={{ color: '#fff' }} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={8}>
             <Autocomplete
               id="country-select-demo"
-              sx={{ width: 167 }}
+              sx={{ width: 190 }}
               options={countries}
               autoHighlight
               onChange={(e) => countryHandlerChange(e)}

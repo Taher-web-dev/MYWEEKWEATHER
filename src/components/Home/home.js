@@ -1,17 +1,29 @@
 import { React, useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import XMLHttpRequest from 'xhr2';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { setCountry } from '../../Redux/Position/Action/action';
 import Header from './header';
-import SUNNY from '../../Statics/Images/sun.svg';
+import getWeatherData from '../../Redux/Weather/Thunk/thunk';
+import { weatherDescription, currentData } from './weatherHandler';
 
 const Home = () => {
   const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
   const dispatch = useDispatch();
-
+  const weather = useSelector((state) => state.weather);
+  const [
+    currentDescription,
+    currentWind,
+    currentHumidity,
+    currentPressure,
+    currentTemp,
+  ] = currentData(weather);
+  const [
+    currentWeatherDescription,
+    currentImage,
+  ] = weatherDescription[currentDescription.toLowerCase()];
   const getCity = (coordinates) => {
     const xhr = new XMLHttpRequest();
     const lat = coordinates[0];
@@ -43,10 +55,25 @@ const Home = () => {
 
   const weatherAnimation = () => {
     const element = document.querySelector('.weather');
-    element.style.transform += 'rotate(2deg)';
+    const translate = (ds) => {
+      element.style.transform = `translate(${ds}px)`;
+    };
+    if (currentWeatherDescription) {
+      if (currentWeatherDescription === 'SUNNY') {
+        element.style.transform += 'rotate(1deg)';
+        setInterval(weatherAnimation, 1);
+      } else {
+        translate(3);
+        setTimeout(translate, 2000, 3);
+        setTimeout(translate, 2000, -3);
+        setTimeout(translate, 2000, -3);
+        setTimeout(weatherAnimation, 3000);
+      }
+    }
   };
   useEffect(() => getCurrentLocation(), [lat, long]);
-  useEffect(() => setInterval(weatherAnimation, 1), []);
+  useEffect(() => weatherAnimation, [weather]);
+  useEffect(() => dispatch(getWeatherData(lat, long)), [lat, long]);
   return (
     <div>
       <Header getCurrentLocation={getCurrentLocation} />
@@ -63,14 +90,22 @@ const Home = () => {
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end',
           }}
         >
-          <img src={SUNNY} alt="weather" style={{ marginBottom: '20px', width: '60px' }} className="weather" />
-          <Typography variant="h5" style={{ color: '#fff' }}>Sunny</Typography>
+          <img src={currentImage} alt="weather" style={{ marginBottom: '20px', width: '60px' }} className="weather" />
+          <Typography variant="h5" style={{ color: '#fff' }}>{currentWeatherDescription}</Typography>
         </Grid>
         <Grid item xs={5} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-          <Typography variant="span" style={{ color: '#fff' }}>Wind: 10 metre/sec</Typography>
-          <Typography variant="span" style={{ color: '#fff' }}>Humidity: 10 %</Typography>
-          <Typography variant="span" style={{ color: '#fff' }}>Pressure: 5 hPa</Typography>
-          <Typography variant="h3" style={{ color: '#fff', textAlign: 'center' }}>15°c</Typography>
+          <Typography variant="span" style={{ color: '#fff' }}>
+            {`Wind: ${currentWind} m/s`}
+          </Typography>
+          <Typography variant="span" style={{ color: '#fff' }}>
+            {`Humidity: ${currentHumidity} %`}
+          </Typography>
+          <Typography variant="span" style={{ color: '#fff' }}>
+            {`Pressure: ${currentPressure} hPa`}
+          </Typography>
+          <Typography variant="h6" style={{ color: '#fff', textAlign: 'center' }}>
+            {`${currentTemp}°c`}
+          </Typography>
         </Grid>
       </Grid>
     </div>
