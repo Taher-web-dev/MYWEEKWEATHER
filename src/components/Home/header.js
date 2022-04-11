@@ -14,12 +14,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCountry } from '../../Redux/Position/Action/action';
 import countries from './helper';
 import LOCATION from '../../Statics/Images/location.png';
+// import { lastDayOfDecade } from 'date-fns';
 
 const Header = (props) => {
   const {
     getCurrentLocation,
   } = props;
-  let city = useSelector((state) => state.city);
+  const city = useSelector((state) => state.city);
   const dispatch = useDispatch();
   const popUpOoptions = () => {
     const header = document.querySelector('.header');
@@ -34,23 +35,27 @@ const Header = (props) => {
     options.style.display = 'none';
     header.style.display = 'flex';
   };
-
+  /* const searchLatAndLngByStreet = async (location) => {
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=59fbb7ff74d34f8486c9a37271339b21`;
+    const result = await fetch(url);
+    const res = await result.json();
+    const pertinentResult = res.results[0];
+    const country = pertinentResult.formatted;
+    const { lat, log } = pertinentResult.geometry;
+    dispatch(setCountry({
+      country,
+      city,
+    }));
+    setLat(lat);
+    setLong(log);
+  }; */
   const countryHandlerChange = (e) => {
     setTimeout(changeHeaderBar, 1000);
-    city = e.target.textContent;
-    dispatch(setCountry(
-      {
-        country: city,
-        city,
-      },
-    ));
-  };
-
-  const backToMainMenu = () => {
-    const options = document.querySelector('.options');
-    const main = document.querySelector('.header');
-    options.style.display = 'none';
-    main.style.display = 'flex';
+    const country = e.target.textContent;
+    dispatch(setCountry({
+      country,
+      city: '',
+    }));
   };
 
   const theme = createTheme({
@@ -86,7 +91,7 @@ const Header = (props) => {
       >
         <ThemeProvider theme={theme}>
           <Grid item xs={2}>
-            <ArrowBackIosIcon style={{ color: '#fff' }} onClick={backToMainMenu} />
+            <ArrowBackIosIcon style={{ color: '#fff' }} onClick={changeHeaderBar} />
           </Grid>
           <Grid item xs={8}>
             <Autocomplete
@@ -94,7 +99,7 @@ const Header = (props) => {
               sx={{ width: 190 }}
               options={countries}
               autoHighlight
-              onChange={(e) => countryHandlerChange(e)}
+              onChange={countryHandlerChange}
               getOptionLabel={(option) => option.label}
               renderOption={(props, option) => (
                 <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props} style={{ color: '#fff' }}>

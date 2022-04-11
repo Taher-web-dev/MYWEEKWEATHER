@@ -71,6 +71,7 @@ const Home = () => {
       }
     }
   };
+
   useEffect(() => getCurrentLocation(), [lat, long]);
   useEffect(() => weatherAnimation, [weather]);
   useEffect(() => dispatch(getWeatherData(lat, long)), [lat, long]);
