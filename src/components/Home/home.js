@@ -13,6 +13,7 @@ const Home = () => {
   const [long, setLong] = useState(0);
   const dispatch = useDispatch();
   const weather = useSelector((state) => state.weather);
+  const location = useSelector((state) => state.city);
   const [
     currentDescription,
     currentWind,
@@ -70,9 +71,26 @@ const Home = () => {
     }
   };
 
+  const searchLatAndLngByStreet = async (location) => {
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=59fbb7ff74d34f8486c9a37271339b21`;
+    const result = await fetch(url);
+    const res = await result.json();
+    const pertinentResult = res.results[0];
+    // const country = pertinentResult.formatted;
+    const { lat, log } = pertinentResult.geometry;
+    /*
+    dispatch(setCountry({
+      country,
+      city,
+    })); */
+    setLat(lat);
+    setLong(log);
+  };
+
   useEffect(() => getCurrentLocation(), []);
   useEffect(() => weatherAnimation, [weather]);
   useEffect(() => dispatch(getWeatherData(lat, long)), [lat, long]);
+  useEffect(() => searchLatAndLngByStreet(location.country), [location]);
   return (
     <div>
       <Header getCurrentLocation={getCurrentLocation} />

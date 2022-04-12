@@ -35,20 +35,6 @@ const Header = (props) => {
     options.style.display = 'none';
     header.style.display = 'flex';
   };
-  /* const searchLatAndLngByStreet = async (location) => {
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=59fbb7ff74d34f8486c9a37271339b21`;
-    const result = await fetch(url);
-    const res = await result.json();
-    const pertinentResult = res.results[0];
-    const country = pertinentResult.formatted;
-    const { lat, log } = pertinentResult.geometry;
-    dispatch(setCountry({
-      country,
-      city,
-    }));
-    setLat(lat);
-    setLong(log);
-  }; */
   const countryHandlerChange = (e) => {
     setTimeout(changeHeaderBar, 1000);
     const country = e.target.textContent;
