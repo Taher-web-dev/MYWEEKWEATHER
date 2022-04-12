@@ -44,13 +44,11 @@ const Home = () => {
 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
+      const coords = [position.coords.latitude.toString(), position.coords.longitude.toString()];
+      getCity(coords);
       setLat(position.coords.latitude);
       setLong(position.coords.longitude);
     });
-    if ((lat !== 0) && (long !== 0)) {
-      const coords = [lat.toString(), long.toString()];
-      getCity(coords);
-    }
   };
 
   const weatherAnimation = () => {
@@ -72,7 +70,7 @@ const Home = () => {
     }
   };
 
-  useEffect(() => getCurrentLocation(), [lat, long]);
+  useEffect(() => getCurrentLocation(), []);
   useEffect(() => weatherAnimation, [weather]);
   useEffect(() => dispatch(getWeatherData(lat, long)), [lat, long]);
   return (
