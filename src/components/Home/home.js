@@ -14,6 +14,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const weather = useSelector((state) => state.weather);
   const location = useSelector((state) => state.city);
+  const toggle = useSelector((state) => state.toggle);
   const [
     currentDescription,
     currentWind,
@@ -90,7 +91,7 @@ const Home = () => {
   useEffect(() => getCurrentLocation(), []);
   useEffect(() => weatherAnimation, [weather]);
   useEffect(() => dispatch(getWeatherData(lat, long)), [lat, long]);
-  useEffect(() => searchLatAndLngByStreet(location.country), [location]);
+  useEffect(() => searchLatAndLngByStreet(location.country), [toggle]);
   return (
     <div>
       <Header getCurrentLocation={getCurrentLocation} />

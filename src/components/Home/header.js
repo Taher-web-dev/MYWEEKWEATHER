@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setCountry } from '../../Redux/Position/Action/action';
 import countries from './helper';
 import LOCATION from '../../Statics/Images/location.png';
+import { switchToggle } from '../../Redux/Toggle/toggle';
 // import { lastDayOfDecade } from 'date-fns';
 
 const Header = (props) => {
@@ -36,12 +37,13 @@ const Header = (props) => {
     header.style.display = 'flex';
   };
   const countryHandlerChange = (e) => {
-    setTimeout(changeHeaderBar, 1000);
+    changeHeaderBar();
     const country = e.target.textContent;
     dispatch(setCountry({
       country,
       city: '',
     }));
+    dispatch(switchToggle());
   };
 
   const theme = createTheme({

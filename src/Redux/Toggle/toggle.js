@@ -4,12 +4,12 @@ export const switchToggle = () => ({
   type: Toggle,
 });
 
-const toggleReducer = (state= false, action) => {
+const toggleReducer = (state = false, action) => {
   switch (action.type) {
     case Toggle:
-        return !state;
+      return !state;
     default:
-        return state;
+      return state;
   }
 };
 
