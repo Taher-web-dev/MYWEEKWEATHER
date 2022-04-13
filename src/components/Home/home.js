@@ -9,8 +9,7 @@ import getWeatherData from '../../Redux/Weather/Thunk/thunk';
 import { weatherDescription, currentData } from './weatherHandler';
 
 const Home = () => {
-  const [lat, setLat] = useState(0);
-  const [long, setLong] = useState(0);
+  const [coord, setCoord] = useState([0, 0]);
   const dispatch = useDispatch();
   const weather = useSelector((state) => state.weather);
   const location = useSelector((state) => state.city);
@@ -48,8 +47,7 @@ const Home = () => {
     navigator.geolocation.getCurrentPosition((position) => {
       const coords = [position.coords.latitude.toString(), position.coords.longitude.toString()];
       getCity(coords);
-      setLat(position.coords.latitude);
-      setLong(position.coords.longitude);
+      setCoord([position.coords.latitude, position.coords.longitude]);
     });
   };
 
@@ -77,20 +75,13 @@ const Home = () => {
     const result = await fetch(url);
     const res = await result.json();
     const pertinentResult = res.results[0];
-    // const country = pertinentResult.formatted;
-    const { lat, log } = pertinentResult.geometry;
-    /*
-    dispatch(setCountry({
-      country,
-      city,
-    })); */
-    setLat(lat);
-    setLong(log);
+    const { lat, lng } = pertinentResult.geometry;
+    setCoord([lat, lng]);
   };
 
   useEffect(() => getCurrentLocation(), []);
-  useEffect(() => weatherAnimation, [weather]);
-  useEffect(() => dispatch(getWeatherData(lat, long)), [lat, long]);
+  useEffect(() => weatherAnimation(), [weather]);
+  useEffect(() => dispatch(getWeatherData(coord[0], coord[1])), [coord]);
   useEffect(() => searchLatAndLngByStreet(location.country), [toggle]);
   return (
     <div>

@@ -15,7 +15,6 @@ import { setCountry } from '../../Redux/Position/Action/action';
 import countries from './helper';
 import LOCATION from '../../Statics/Images/location.png';
 import { switchToggle } from '../../Redux/Toggle/toggle';
-// import { lastDayOfDecade } from 'date-fns';
 
 const Header = (props) => {
   const {
