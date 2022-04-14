@@ -54,18 +54,19 @@ const Home = () => {
   const weatherAnimation = () => {
     const element = document.querySelector('.weather');
     const translate = (ds) => {
-      element.style.transform = `translate(${ds}px)`;
+      element.style.transform += `translate(${ds}px)`;
+    };
+    const rotate = () => {
+      element.style.transform += 'rotate(1deg)';
     };
     if (currentWeatherDescription) {
       if (currentWeatherDescription === 'SUNNY') {
-        element.style.transform += 'rotate(1deg)';
-        setInterval(weatherAnimation, 1);
+        rotate();
       } else {
-        translate(3);
+        setTimeout(translate, 1000, 3);
         setTimeout(translate, 2000, 3);
-        setTimeout(translate, 2000, -3);
-        setTimeout(translate, 2000, -3);
-        setTimeout(weatherAnimation, 3000);
+        setTimeout(translate, 3000, -3);
+        setTimeout(translate, 4000, -3);
       }
     }
   };
@@ -78,9 +79,18 @@ const Home = () => {
     const { lat, lng } = pertinentResult.geometry;
     setCoord([lat, lng]);
   };
-
   useEffect(() => getCurrentLocation(), []);
-  useEffect(() => weatherAnimation(), [weather]);
+  useEffect(() => {
+    let weatherManagment;
+    if (currentWeatherDescription === 'SUNNY') {
+      document.querySelector('.weather').style.transform = 'translate(0px)';
+      weatherManagment = setInterval(weatherAnimation, 1);
+    } else {
+      document.querySelector('.weather').style.transform = 'rotate(0deg)';
+      weatherManagment = setInterval(weatherAnimation, 4000);
+    }
+    return () => clearInterval(weatherManagment);
+  }, [weather]);
   useEffect(() => dispatch(getWeatherData(coord[0], coord[1])), [coord]);
   useEffect(() => searchLatAndLngByStreet(location.country), [toggle]);
   return (
