@@ -7,6 +7,7 @@ import { setCountry } from '../../Redux/Position/Action/action';
 import Header from './header';
 import getWeatherData from '../../Redux/Weather/Thunk/thunk';
 import { weatherDescription, currentData } from './weatherHandler';
+import WeakWEather from './weekWeather';
 
 const Home = () => {
   const [coord, setCoord] = useState([0, 0]);
@@ -127,6 +128,7 @@ const Home = () => {
           </Typography>
         </Grid>
       </Grid>
+      <WeakWEather />
     </div>
   );
 };
