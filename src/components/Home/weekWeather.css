@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+}
+
+.weekday-weather {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weather-img {
+  margin-bottom: 20px;
+  width: 40px;
+}
+
+.day-name {
+  color: white;
+  font-family: system-ui;
+}
