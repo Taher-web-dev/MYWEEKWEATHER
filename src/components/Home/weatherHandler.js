@@ -33,24 +33,20 @@ export const forecastData = (weatherObj) => {
   const forecastWeather = [];
   try {
     const dailies = weatherObj.daily;
-    let i = 0;
-    dailies.forEach((dayWeather) => {
-      if (i >= 6) {
-        break;
-      }
+    [0, 1, 2, 3, 4, 5].forEach((index) => {
+      const dayWeather = dailies[index];
       const dayDt = dayWeather.dt;
       const description = dayWeather.weather[0].main;
       const temp = dayWeather.temp.day;
-      const img = weatherDescription.description[0];
+      const img = weatherDescription[description.toLowerCase()][1];
       const day = currentDay(dayDt);
-      const dayWeatherObj = { temp, img, day};
+      const dayWeatherObj = { temp, img, day };
       forecastWeather.push(dayWeatherObj);
-      i += 1;
-    })
+    });
   } catch {
     const forecastWeather = [];
+    forecastWeather.push(1);
+    forecastWeather.shift();
   }
   return forecastWeather;
 };
-
-
