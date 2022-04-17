@@ -100,7 +100,7 @@ const Home = () => {
       <Grid
         container
         style={{
-          marginTop: '50px', backgroundColor: 'rgb(42, 84, 108)', padding: '25px 0', width: '90%', marginLeft: '5%', border: '4px solid rgb(96, 128, 148)', borderRadius: '5%',
+          margin: '50px 5% 100px 5%', backgroundColor: 'rgb(42, 84, 108)', padding: '25px 0', width: '90%', border: '4px solid rgb(96, 128, 148)', borderRadius: '5%',
         }}
       >
         <Grid
