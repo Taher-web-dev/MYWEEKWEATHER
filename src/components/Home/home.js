@@ -128,7 +128,7 @@ const Home = () => {
           </Typography>
         </Grid>
       </Grid>
-      <WeakWEather />
+      <WeakWEather forecasting={weather} />
     </div>
   );
 };

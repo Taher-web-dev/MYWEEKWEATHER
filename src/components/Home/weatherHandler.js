@@ -23,5 +23,34 @@ export const currentData = (weatherObj) => {
   }
   return [description, wind, humidity, pressure, temp];
 };
+const currentDay = (dt) => {
+  const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  const date = new Date(dt * 1000);
+  const orderDay = date.getDay();
+  return days[orderDay];
+};
+export const forecastData = (weatherObj) => {
+  const forecastWeather = [];
+  try {
+    const dailies = weatherObj.daily;
+    let i = 0;
+    dailies.forEach((dayWeather) => {
+      if (i >= 6) {
+        break;
+      }
+      const dayDt = dayWeather.dt;
+      const description = dayWeather.weather[0].main;
+      const temp = dayWeather.temp.day;
+      const img = weatherDescription.description[0];
+      const day = currentDay(dayDt);
+      const dayWeatherObj = { temp, img, day};
+      forecastWeather.push(dayWeatherObj);
+      i += 1;
+    })
+  } catch {
+    const forecastWeather = [];
+  }
+  return forecastWeather;
+};
 
-// export default currentData;
+

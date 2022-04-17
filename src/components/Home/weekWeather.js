@@ -3,9 +3,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import './weekWeather.css';
+import PropTypes from 'prop-types';
 import SUNNY from '../../Statics/Images/sun.svg';
 
-const WeakWEather = () => {
+const WeakWEather = (props) => {
+  const { forecasting } = props;
   let index = 0;
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -27,5 +29,7 @@ const WeakWEather = () => {
     </Box>
   );
 };
-
+WeakWEather.propTypes = {
+  forecasting: PropTypes.instanceOf(Object).isRequired,
+};
 export default WeakWEather;
