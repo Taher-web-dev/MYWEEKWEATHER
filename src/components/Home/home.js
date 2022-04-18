@@ -1,13 +1,12 @@
 import { React, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import XMLHttpRequest from 'xhr2';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { setCountry } from '../../Redux/Position/Action/action';
 import Header from './header';
 import getWeatherData from '../../Redux/Weather/Thunk/thunk';
 import { weatherDescription, currentData } from './weatherHandler';
 import WeakWEather from './weekWeather';
+import { getCurrentLocation, searchLatAndLngByStreet } from './locationHelper';
 
 const Home = () => {
   const [coord, setCoord] = useState([0, 0]);
@@ -26,31 +25,6 @@ const Home = () => {
     currentWeatherDescription,
     currentImage,
   ] = weatherDescription[currentDescription.toLowerCase()];
-  const getCity = (coordinates) => {
-    const xhr = new XMLHttpRequest();
-    const lat = coordinates[0];
-    const lng = coordinates[1];
-    function processRequest() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        const loc = response.address;
-        dispatch(setCountry(loc));
-      }
-    }
-    xhr.open('GET', `https://us1.locationiq.com/v1/reverse.php?key=pk.f19e4fdca419f2e8ffa20180b18d27d6&lat=${
-      lat}&lon=${lng}&format=json`, true);
-    xhr.send();
-    xhr.onreadystatechange = processRequest;
-    xhr.addEventListener('readystatechange', processRequest, false);
-  };
-
-  const getCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const coords = [position.coords.latitude.toString(), position.coords.longitude.toString()];
-      getCity(coords);
-      setCoord([position.coords.latitude, position.coords.longitude]);
-    });
-  };
 
   const weatherAnimation = () => {
     const element = document.querySelector('.weather');
@@ -72,15 +46,7 @@ const Home = () => {
     }
   };
 
-  const searchLatAndLngByStreet = async (location) => {
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=59fbb7ff74d34f8486c9a37271339b21`;
-    const result = await fetch(url);
-    const res = await result.json();
-    const pertinentResult = res.results[0];
-    const { lat, lng } = pertinentResult.geometry;
-    setCoord([lat, lng]);
-  };
-  useEffect(() => getCurrentLocation(), []);
+  useEffect(() => getCurrentLocation(setCoord, dispatch), []);
   useEffect(() => {
     let weatherManagment;
     if (currentWeatherDescription === 'SUNNY') {
@@ -93,10 +59,10 @@ const Home = () => {
     return () => clearInterval(weatherManagment);
   }, [weather]);
   useEffect(() => dispatch(getWeatherData(coord[0], coord[1])), [coord]);
-  useEffect(() => searchLatAndLngByStreet(location.country), [toggle]);
+  useEffect(() => searchLatAndLngByStreet(location.country, setCoord), [toggle]);
   return (
     <div>
-      <Header getCurrentLocation={getCurrentLocation} />
+      <Header getCurrentLocation={getCurrentLocation} setCoord={setCoord} />
       <Grid
         container
         style={{

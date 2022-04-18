@@ -18,7 +18,7 @@ import { switchToggle } from '../../Redux/Toggle/toggle';
 
 const Header = (props) => {
   const {
-    getCurrentLocation,
+    getCurrentLocation, setCoord,
   } = props;
   const city = useSelector((state) => state.city);
   const dispatch = useDispatch();
@@ -127,7 +127,7 @@ const Header = (props) => {
           ,
           {city.city}
         </Typography>
-        <div role="button" onClick={getCurrentLocation} onKeyDown={getCurrentLocation} tabIndex={0}>
+        <div role="button" onClick={() => getCurrentLocation(setCoord, dispatch)} onKeyDown={() => getCurrentLocation(setCoord, dispatch)} tabIndex={0}>
           <img src={LOCATION} alt="location_icon" height="25rem" />
         </div>
       </div>
@@ -136,5 +136,6 @@ const Header = (props) => {
 };
 Header.propTypes = {
   getCurrentLocation: PropTypes.func.isRequired,
+  setCoord: PropTypes.func.isRequired,
 };
 export default Header;

@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import WeakWEather from '../components/Home/weekWeather';
+import Home from '../components/Home/home';
 
 const mockStore = configureStore([]);
 describe('render correctly weekWeather component', () => {
@@ -17,7 +17,7 @@ describe('render correctly weekWeather component', () => {
     store.dispatch = jest.fn();
     tree = render(
       <Provider store={store}>
-        <WeakWEather />
+        <Home />
       </Provider>,
     );
   });
