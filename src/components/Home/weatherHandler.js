@@ -33,14 +33,17 @@ export const forecastData = (weatherObj) => {
   const forecastWeather = [];
   try {
     const dailies = weatherObj.daily;
-    [0, 1, 2, 3, 4, 5].forEach((index) => {
+    [1, 2, 3, 4, 5, 6].forEach((index) => {
       const dayWeather = dailies[index];
       const dayDt = dayWeather.dt;
       const description = dayWeather.weather[0].main;
       const temp = dayWeather.temp.day;
+      const dayWeatherDescription = weatherDescription[description.toLowerCase()][0];
       const img = weatherDescription[description.toLowerCase()][1];
       const day = currentDay(dayDt);
-      const dayWeatherObj = { temp, img, day };
+      const dayWeatherObj = {
+        temp, img, day, dayWeatherDescription,
+      };
       forecastWeather.push(dayWeatherObj);
     });
   } catch {
