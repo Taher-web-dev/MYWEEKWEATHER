@@ -1,6 +1,6 @@
 import { loadingStart, loadingFailed, getData } from '../Action/action';
 
-const fetchData = (lat, long) => {
+export const fetchData = (lat, long) => {
   const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=hourly,minutely&appid=86741436262fab50bf108d4fe515566c&units=metric`;
   return fetch(url);
 };
