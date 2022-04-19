@@ -1,4 +1,4 @@
-import { currentData } from "../../components/Home/weatherHandler";
+import { currentData, currentDay } from "../../components/Home/weatherHandler";
 
 describe('test currentData function', () => {
   test('get correct data given expected attributs inside the object input', () => {
@@ -16,5 +16,12 @@ describe('test currentData function', () => {
   test('get correct data given empty input object', () => {
     const weatherObj = {};
     expect(currentData(weatherObj)).toStrictEqual(['Searching', '', '', '', '']);
+  });
+});
+
+describe('test currentDay fnction', () => {
+  test('get correct day with a given a data', () => {
+    const d = 1650387441392;
+    expect(currentDay(d)).toBe('FRI');
   });
 });
