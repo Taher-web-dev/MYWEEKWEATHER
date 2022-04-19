@@ -5,5 +5,5 @@ describe('fetch weather data ', () => {
     const resp = await fetchData(15, 22);
     const result = resp.json();
     expect(result).toBeInstanceOf(Object);
-  })
+  });
 });

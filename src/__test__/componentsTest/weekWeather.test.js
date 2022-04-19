@@ -17,7 +17,7 @@ describe('render correctly weekWeather component', () => {
     store.dispatch = jest.fn();
     tree = render(
       <Provider store={store}>
-        <WeakWEather />
+        <WeakWEather forecasting={{}} />
       </Provider>,
     );
   });

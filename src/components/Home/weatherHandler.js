@@ -23,7 +23,7 @@ export const currentData = (weatherObj) => {
   }
   return [description, wind, humidity, pressure, temp];
 };
-const currentDay = (dt) => {
+export const currentDay = (dt) => {
   const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   const date = new Date(dt * 1000);
   const orderDay = date.getDay();
