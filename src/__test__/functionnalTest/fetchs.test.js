@@ -1,4 +1,4 @@
-import { fetchData } from "../../Redux/Weather/Thunk/thunk";
+import { fetchData } from '../../Redux/Weather/Thunk/thunk';
 
 describe('fetch weather data ', () => {
   test('get the correct data', async () => {

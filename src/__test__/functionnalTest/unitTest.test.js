@@ -1,10 +1,10 @@
-import { currentData, currentDay } from "../../components/Home/weatherHandler";
+import { currentData, currentDay } from '../../components/Home/weatherHandler';
 
 describe('test currentData function', () => {
   test('get correct data given expected attributs inside the object input', () => {
     const weatherObj = {
       current: {
-        weather: [{main: 'cloudy'}],
+        weather: [{ main: 'cloudy' }],
         wind_speed: 15,
         humidity: 10,
         pressure: 12,

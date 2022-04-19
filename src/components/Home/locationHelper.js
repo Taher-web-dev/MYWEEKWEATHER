@@ -20,11 +20,19 @@ export const getCity = (coordinates, dispatch) => {
 };
 
 export const getCurrentLocation = (setCoord, dispatch) => {
-  navigator.geolocation.getCurrentPosition((position) => {
-    const coords = [position.coords.latitude.toString(), position.coords.longitude.toString()];
-    getCity(coords, dispatch);
-    setCoord([position.coords.latitude, position.coords.longitude]);
-  });
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const coords = [position.coords.latitude.toString(), position.coords.longitude.toString()];
+      getCity(coords, dispatch);
+      setCoord([position.coords.latitude, position.coords.longitude]);
+    },
+    (error) => alert(`${error.code}: ${error.message}`),
+    {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
+      timeout: 5000,
+    },
+  );
 };
 
 export const searchLatAndLngByStreet = async (location, setCoord) => {
