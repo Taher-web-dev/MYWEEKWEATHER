@@ -9,7 +9,7 @@
 
 
 ## Live Demo
-> Click [here](https://mic-car-rental.netlify.app/) to see the live preview of the project.
+> Click [here](https://myweekweather.netlify.app/) to see the live preview of the project.
 
 
 ### Built With
