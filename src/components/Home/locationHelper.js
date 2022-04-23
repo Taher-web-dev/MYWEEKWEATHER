@@ -26,7 +26,7 @@ export const getCurrentLocation = (setCoord, dispatch) => {
       getCity(coords, dispatch);
       setCoord([position.coords.latitude, position.coords.longitude]);
     },
-    (error) => alert(`${error.code}: ${error.message}`),
+    (error) => `${error.code}: ${error.message}`,
     {
       enableHighAccuracy: true,
       maximumAge: 10000,
