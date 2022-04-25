@@ -1,5 +1,5 @@
 # MYWEEKWEATHER
-> MYWEEKWEATHER is a mobile web application, which can detect the current location of the user and display a weather forecast for the next seven days. The user can also pick any other place in the world and check his weather prediction for the same period.  
+> MYWEEKWEATHER is a mobile web application, which can detect the current location of the user and display a weather forecast for the next seven days. The user can also pick any other place in the world and check its weather prediction for the same period.  
 
 ## Project Preview
 
